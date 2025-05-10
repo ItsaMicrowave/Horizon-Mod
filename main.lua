@@ -26,10 +26,10 @@ SMODS.Sound{
  SMODS.PokerHand{
     key = 'Rampart',
     visible = false,
-    mult = 12,
+    mult = 8,
     chips = 20,
-    l_mult = 5,
-    l_chips = 10,
+    l_mult = 3,
+    l_chips = 15,
     example = {
         {'m_stone', true, 'm_stone'},
         {'m_stone', true, 'm_stone'},
@@ -38,14 +38,7 @@ SMODS.Sound{
         {'m_stone', true, 'm_stone'},
     },
  
- 
-    loc_txt = {
-        name = 'Rampart',
-        description = {
-            '5 Stone Cards',
-        },
-    },
- 
+
  
     evaluate = function(parts, hand)
         local stones = {}
@@ -95,16 +88,7 @@ SMODS.Sound{
         key = "asteroid",
         pos = { x = 0, y = 0 },
  
- 
-        loc_txt = {
-            name = "Asteroid",
-            text = {
-                "(lvl #1#) Level up",
-                "{C:attention}Rampart{}",
-                "{C:red}+#2#{} Mult and",
-                "{C:blue}+#3#{} chips",
-            },
-        },
+
  
  
         config = { hand_type = 'hrzi_Rampart', softlock = true },
@@ -374,16 +358,28 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
 
-    loc_vars = function(self, info_queue, center)
+    config = {
+        extra = {
+            odds = 2
+        }
+    },
+
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.e_negative
         info_queue[#info_queue+1] = G.P_CENTERS.c_moon
         info_queue[#info_queue+1] = G.P_CENTERS.c_sun
         info_queue[#info_queue+1] = G.P_CENTERS.c_world
         info_queue[#info_queue+1] = G.P_CENTERS.c_star
+        return {
+            vars = {
+                (G.GAME.probabilities.normal or 1),
+                card.ability.extra.odds
+            }
+        }
     end, 
 
     calculate = function(self, card, context)
-        if context.setting_blind then
+        if context.setting_blind and pseudorandom('skygaylmao') < G.GAME.probabilities.normal / card.ability.extra.odds then
             -- Create Moon card
             local new_card = create_card('Moon', G.consumeables, nil, nil, nil, nil, 'c_moon')
             new_card:set_edition({negative = true}, true)
@@ -585,27 +581,28 @@ SMODS.Joker{
 
 
     calculate = function(self, card, context)
-        local ehmoney = -2
-        if (context.consumeable and context.consumeable.ability and context.consumeable.ability.set == 'Planet') and (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) then
-            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-
-            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
-                play_sound('timpani')
-                ease_dollars(ehmoney, true)
-                return true end }))
-            local new_card = create_card('Black Hole', G.consumeables, nil, nil, nil, nil, 'c_black_hole')
-            new_card:add_to_deck()
-            G.consumeables:emplace(new_card)
-            G.GAME.consumeable_buffer = 0
-
-            return {
-                delay = 0.3,
-                card = card,
-                message = 'Collapsed',
-                colour = G.C.PURPLE
-            }
+        if context.ending_shop then
+            local planets_destroyed = 0
+            for i = #G.consumeables.cards, 1, -1 do
+                local c = G.consumeables.cards[i]
+                if c.ability and c.ability.set == 'Planet' then
+                    c:remove()
+                    planets_destroyed = planets_destroyed + 1
+                end
+            end
+            for i = 2, planets_destroyed do
+                local new_card = create_card('Black Hole', G.consumeables, nil, nil, nil, nil, 'c_black_hole')
+                new_card:add_to_deck()
+                G.consumeables:emplace(new_card)
+                return{
+                    card = card,
+                    message = 'Collapse!',
+                    colour = G.C.PURPLE
+                }
+            end
         end
     end
+
 
 }
 
