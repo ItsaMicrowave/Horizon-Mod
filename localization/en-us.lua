@@ -16,7 +16,8 @@ return{
             j_hrzi_skygazer = {
                 name = 'Skygazer',
                 text = {
-                    'When blind is selected, create a {C:dark_edition}Negative{}',
+                    'When blind is selected',
+                    '{C:green}#1# in #2#{} chance to create a {C:dark_edition}Negative{}',
                     '{C:tarot} Moon, Sun, World {}and {C:tarot}Star{}',
                     '{C:inactive}(One of each){}',
                 }
@@ -48,9 +49,9 @@ return{
             j_hrzi_event_horizon = {
                 name = 'Event Horizon',
                 text = {
-                    'When a {C:attention}Planet Card{} is used',
-                    'lose {C:money}$2{}',
-                    'gain a {C:spectral}Black Hole{}',
+                    'Destroy {C:planet}Planet{} Cards at end of shop',
+                    'For every 2 {C:planet}Planet{} Cards destroyed',
+                    'Create 1 {C:spectral}Black Hole'
                 }
             },
 
@@ -132,6 +133,57 @@ return{
                     '{C:inactive}(Suit changes every round){}'
                 }
             }
-        }
+        },
+               --[[]
+        Other={},
+        ]]
+        Planet={
+            c_hrzi_asteroid = {
+                name = 'Asteroid',
+                text = {
+                    "(lvl #1#) Level up",
+                    "{C:attention}Rampart{}",
+                    "{C:red}+#2#{} Mult and",
+                    "{C:blue}+#3#{} chips",
+                },
+
+            }
+        },
+        --[[]
+        Spectral={},
+        Stake={},
+        Tag={},
+        Tarot={},
+        Voucher={},
+        ]]
+    },
+
+    misc = {
+        --achievement_descriptions={},
+        --achievement_names={},
+        --blind_states={},
+        --challenge_names={},
+        --collabs={},
+        --dictionary={},
+        --high_scores={},
+        --labels={},
+
+        poker_hand_descriptions={
+            ['hrzi_Rampart'] = {
+                '5 Stone Cards'
+            }
+        },
+
+        poker_hands={
+            ['hrzi_Rampart'] = "Rampart"
+        },
+
+        --quips={},
+        --ranks={},
+        --suits_plural={},
+        --suits_singular={},
+        --tutorial={},
+        --v_dictionary={},
+        --v_text={},
     }
 }
