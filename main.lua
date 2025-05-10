@@ -317,7 +317,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_justice
         info_queue[#info_queue+1] = G.P_CENTERS.c_deja_vu
     end, 
@@ -428,10 +428,8 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
 
-config = {extra = {money = 0}},
 
-loc_vars = function(self, info_queue, center)
-    return {vars = {center.ability.extra.money}}
+loc_vars = function(self, info_queue, card)
 end,
 
 calculate = function(self, card, context)
@@ -477,8 +475,8 @@ SMODS.Joker{
     },
 
 
-    loc_vars = function(self, info_queue, center)
-        return {vars = {center.ability.extra.Xmult_mod, center.ability.extra.Xmult}}
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}}
     end,
 
     calculate = function(self, card, context)
@@ -512,7 +510,7 @@ SMODS.Joker{
     pos = {x=0,y=0},
     rarity = 1,
     cost = 4,
-    blueprint_compat = false,
+    blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
 
@@ -522,13 +520,12 @@ SMODS.Joker{
         }
     },
 
-    loc_vars = function(self,info_queue,center)
+    loc_vars = function(self,info_queue,card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-        return { vars = {center.ability.extra.money}}
+        return { vars = {card.ability.extra.money}}
     end,
 
     calculate = function(self, card, context)
-        local minemoney = 1
         if context.individual then
             if context.cardarea == G.play then
                 if SMODS.has_enhancement(context.other_card, 'm_stone') then
@@ -537,7 +534,7 @@ SMODS.Joker{
                         delay = 0.2,
                         func = function()
                             play_sound('timpani')
-                            ease_dollars(minemoney, true)
+                            ease_dollars(card.ability.extra.money, true)
                             return true
                         end,
                     }))
@@ -575,7 +572,7 @@ SMODS.Joker{
     eternal_compat = true,
     perishable_compat = true,
     
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_black_hole
     end, 
 
@@ -634,8 +631,8 @@ SMODS.Joker{
         }
     },
 
-    loc_vars = function(self, info_queue, center)
-        return {vars = {center.ability.extra.Xmult_mod, center.ability.extra.Xmult}}
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}}
     end,
 
 calculate = function(self, card, context)
@@ -689,9 +686,9 @@ SMODS.Joker{
         }
     },
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-        return { vars = {center.ability.extra.mult} }
+        return { vars = {card.ability.extra.mult} }
     end,
 
 
@@ -745,9 +742,9 @@ SMODS.Joker{
         }
     },
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-        return {vars = {center.ability.extra.Xchips}}
+        return {vars = {card.ability.extra.Xchips}}
     end,
 
     reset = function(self)
@@ -813,9 +810,9 @@ SMODS.Joker{
         }
     },
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_wild
-        return { vars = {center.ability.extra.Emult, center.ability.extra.countdown}}
+        return { vars = {card.ability.extra.Emult, card.ability.extra.countdown}}
     end,
 
     calculate = function(self, card, context)
@@ -885,7 +882,7 @@ SMODS.Joker{
     eternal_compat = true,
 
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_gold
     end,
 
@@ -932,7 +929,7 @@ SMODS.Joker{
     perishable_compat = true,
     eternal_compat = true,   
     
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_devil
     end,
 
@@ -971,13 +968,13 @@ SMODS.Joker{
 
     config = {
         extra = {
-            cost = 12,
+            cost = -12,
         }
     },
 
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-        return { vars = {center.ability.extra.cost}}
+        return { vars = {card.ability.extra.cost}}
     end,
 
     calculate = function(self, card, context)
@@ -995,7 +992,7 @@ SMODS.Joker{
 
                 G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                     play_sound('timpani')
-                    ease_dollars(deduction, true)
+                    ease_dollars(card.ability.extra.cost, true)
                     return true end }))
                 end
     end
