@@ -17,7 +17,8 @@ return{
             j_hrzi_skygazer = {
                 name = '观天者',
                 text = {
-                    '选择盲注时，生成一张{C:dark_edition}负片{}',
+                    '选择盲注时，有{C:green}#1#/#2#{}的几率',
+                    '生成一张{C:dark_edition}负片{}',
                     '{C:tarot}月亮，太阳，世界{}和{C:tarot}星星{}',
                     '{C:inactive}(各一张){}',
                 }
@@ -49,8 +50,9 @@ return{
             j_hrzi_event_horizon = {
                 name = '事件视界',
                 text = {
-                    '使用{C:attention}星球牌{}时，失去{C:money}$2{}',
-                    '然后生成一张{C:spectral}黑洞{}'
+                    '离开商店时，摧毁消耗品槽位里的{C:planet}星球牌{}',
+                    '每两个被摧毁的{C:planet}星球牌{}会生成',
+                    '一张{C:spectral}黑洞{}'
                 }
             },
 
@@ -130,9 +132,61 @@ return{
                 text = {
                     '如果打出的牌是',
                     '{V:1}#2#{C:attention}A{}',
-                    '{X:mult,C:white}X#1#{}倍率'
+                    '{X:mult,C:white}X#1#{}倍率',
+                    '{s:0.8,C:inactive}回合结束时改变需求花色',
                 }
             }
-        }
+        },
+        --[[]
+        Other={},
+        ]]
+        Planet={
+            c_hrzi_asteroid = {
+                name = '小行星',
+                text = {
+                    "{S:0.8}（{S:0.8,V:1}等级#1#{S:0.8}）{}",
+                    "升级{C:attention}壁垒",
+                    "{C:mult}+#2#{}倍率并且",
+                    "{C:chips}+#3#{}筹码",
+                }
+
+            }
+        },
+        --[[]
+        Spectral={},
+        Stake={},
+        Tag={},
+        Tarot={},
+        Voucher={},
+        ]]
+    },
+
+    misc = {
+        --achievement_descriptions={},
+        --achievement_names={},
+        --blind_states={},
+        --challenge_names={},
+        --collabs={},
+        --dictionary={},
+        --high_scores={},
+        --labels={},
+
+        poker_hand_descriptions={
+            ['hrzi_Rampart'] = {
+                '五张石头牌'
+            }
+        },
+
+        poker_hands={
+            ['hrzi_Rampart'] = "壁垒"
+        },
+
+        --quips={},
+        --ranks={},
+        --suits_plural={},
+        --suits_singular={},
+        --tutorial={},
+        --v_dictionary={},
+        --v_text={},
     }
 }
